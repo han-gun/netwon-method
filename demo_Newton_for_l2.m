@@ -13,8 +13,14 @@
 
 %%
 clear ;
+close all;
+home;
 
-isgpu   = false;
+%% GPU Processing
+% If there is GPU device on your board, 
+% then isgpu is true. Otherwise, it is false.
+bgpu    = false;
+bfig    = true;
 
 %%  SYSTEM SETTING
 N       = 512;
@@ -58,12 +64,12 @@ COST.function	= @(x) 1/2 * L2(R(x) - y) + LAMBDA/2 * (L2(Dx(x)) + L2(Dy(x)));
 
 
 %% RUN NEWTON METHOD
-if isgpu
+if bgpu
     y  = gpuArray(y);
     x0 = gpuArray(x0);
 end
 
-[x_newton, obj]	= Newton(A0, A1, x0, niter, COST);
+[x_newton, obj]	= Newton(A0, A1, x0, niter, COST, bfig);
 
 %% CALCUATE QUANTIFICATION FACTOR 
 x_low           = max(x_low, 0);

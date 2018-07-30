@@ -4,7 +4,11 @@
 %%
 function [x, obj]  = Newton(A0,A1,x,n,COST,bfig)
 
-if (nargin < 5)
+if (nargin < 6)
+    bfig = false;
+end
+
+if (nargin < 5 || isempty(COST))
     COST.function	= @(x) (0);
     COST.equation	= [];
 end
